@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GPU Stress Test - 3D Sphere</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000000;
+        }
+        #controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 100;
+        }
+        #controls label {
+            margin-right: 10px;
+        }
+        #performance-level {
+            padding: 5px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #fps-counter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div id="fps-counter">FPS: 0</div>
+    <div id="controls">
+        <label for="performance-level">Performance Level:</label>
+        <select id="performance-level">
+            <option value="Mobile">Mobile</option>
+            <option value="PC">PC</option>
+            <option value="Super PC">Super PC</option>
+        </select>
+    </div>
+    <script src="three.min.js"></script>
+    <script src="scene.js"></script>
+</body>
+</html>
