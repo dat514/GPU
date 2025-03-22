@@ -1,7 +1,5 @@
-// Kiểm tra Three.js có tải không
 console.log("Three.js loaded:", typeof THREE);
 
-// Khởi tạo scene, camera, renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -10,16 +8,13 @@ document.body.appendChild(renderer.domElement);
 
 camera.position.z = 50;
 
-// Thêm ánh sáng môi trường
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
-// Thêm ánh sáng điểm từ khối cầu trung tâm
 const pointLight = new THREE.PointLight(0xffffff, 1, 100);
 pointLight.position.set(0, 0, 0);
 scene.add(pointLight);
 
-// Shader tùy chỉnh (Perlin noise)
 const customShaderMaterial = new THREE.ShaderMaterial({
     uniforms: {
         time: { value: 0 },
@@ -119,7 +114,6 @@ const customShaderMaterial = new THREE.ShaderMaterial({
     `
 });
 
-// Tạo khối cầu trung tâm với shader tùy chỉnh
 let sphereSegments = 32;
 let sphere = new THREE.Mesh(
     new THREE.SphereGeometry(10, sphereSegments, sphereSegments),
@@ -127,7 +121,6 @@ let sphere = new THREE.Mesh(
 );
 scene.add(sphere);
 
-// Tạo các khối cầu nhỏ xung quanh
 let smallSpheres = [];
 let smallSphereCount = 10;
 function createSmallSpheres(count) {
@@ -159,7 +152,6 @@ function createSmallSpheres(count) {
 }
 createSmallSpheres(smallSphereCount);
 
-// Tạo các hạt xung quanh
 let particlesCount = 1000;
 let particlesGeometry = new THREE.BufferGeometry();
 const particlesMaterial = new THREE.PointsMaterial({
@@ -184,7 +176,6 @@ particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPo
 let particles = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particles);
 
-// Hàm cập nhật cảnh theo mức độ hiệu năng
 function updatePerformanceLevel(level) {
     try {
         scene.remove(particles);
@@ -236,7 +227,6 @@ function updatePerformanceLevel(level) {
     }
 }
 
-// Thanh tùy chỉnh hiệu năng
 const performanceLevelSelect = document.getElementById('performance-level');
 if (performanceLevelSelect) {
     performanceLevelSelect.addEventListener('change', (event) => {
@@ -247,21 +237,17 @@ if (performanceLevelSelect) {
     console.error("Performance level select element not found!");
 }
 
-// Khởi tạo với mức Mobile
 updatePerformanceLevel('Mobile');
 
-// Đo FPS
 let lastTime = 0;
 let frameCount = 0;
 let fps = 0;
 const fpsCounter = document.getElementById('fps-counter');
 
-// Biến để theo dõi trạng thái chuột (cho máy tính)
 let isDragging = false;
 let previousMousePosition = { x: 0, y: 0 };
 let rotationSpeed = 0.005;
 
-// Điều khiển xoay bằng chuột (cho máy tính)
 window.addEventListener('mousedown', (event) => {
     isDragging = true;
 });
@@ -286,7 +272,6 @@ window.addEventListener('mousemove', (event) => {
     previousMousePosition = { x: event.clientX, y: event.clientY };
 });
 
-// Điều khiển zoom bằng scroll wheel (cho máy tính)
 window.addEventListener('wheel', (event) => {
     event.preventDefault();
     const zoomSpeed = 0.1;
@@ -296,20 +281,17 @@ window.addEventListener('wheel', (event) => {
     console.log("Wheel zoom: camera.z =", camera.position.z);
 }, { passive: false });
 
-// Biến để theo dõi cảm ứng trên điện thoại
 let isTouchRotating = false;
 let touchPreviousPosition = { x: 0, y: 0 };
 let initialDistance = 0;
 let currentDistance = 0;
 
-// Hàm tính khoảng cách giữa hai điểm chạm
 function getDistance(touch1, touch2) {
     const dx = touch1.pageX - touch2.pageX;
     const dy = touch1.pageY - touch2.pageY;
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-// Sự kiện bắt đầu chạm (cho điện thoại)
 window.addEventListener('touchstart', (event) => {
     event.preventDefault();
     if (event.touches.length === 1) {
@@ -321,7 +303,6 @@ window.addEventListener('touchstart', (event) => {
     }
 });
 
-// Sự kiện di chuyển ngón tay (cho điện thoại)
 window.addEventListener('touchmove', (event) => {
     event.preventDefault();
     if (event.touches.length === 1 && isTouchRotating) {
@@ -344,13 +325,11 @@ window.addEventListener('touchmove', (event) => {
     }
 });
 
-// Sự kiện kết thúc chạm (cho điện thoại)
 window.addEventListener('touchend', (event) => {
     isTouchRotating = false;
     initialDistance = 0;
 });
 
-// Vòng lặp animation
 function animate(time) {
     requestAnimationFrame(animate);
     customShaderMaterial.uniforms.time.value = time * 0.001;
@@ -383,7 +362,6 @@ function animate(time) {
 }
 animate(0);
 
-// Xử lý resize cửa sổ
 window.addEventListener('resize', function() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
