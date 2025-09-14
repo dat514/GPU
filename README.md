@@ -1,1 +1,1 @@
-https://dat514.github.io/Test.github.io/
+https://dat514.github.io/GPU/
